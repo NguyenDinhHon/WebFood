@@ -35,44 +35,10 @@ export default function SpecialtyDetail() {
 
   if (!data) return <main><header><h1>Chi Tiết Món Ăn</h1></header><p className="p-4">Đang tải...</p></main>
 
-  const recipe = data.recipes?.[0]
-
-  const ingredientContent = recipe?.recipeIngredients?.length
-    ? (
-      <ul className="ingredients-list">
-        {recipe.recipeIngredients.map((ing, idx) => (
-          <li key={`${ing.ingredientName}-${idx}`}>
-            <span className="ing-name">{ing.ingredientName}</span>
-            <span className="ing-qty">
-              {Number(ing.quantity)} {ing.unit}
-            </span>
-          </li>
-        ))}
-      </ul>
-    )
-    : '—'
-
-  const stepsContent = recipe?.recipeSteps?.length
-    ? (
-      <ol className="steps-list">
-        {recipe.recipeSteps.map(step => (
-          <li key={step.id}>
-            <span className="step-number">Bước {step.stepNumber}:</span> {step.description}
-          </li>
-        ))}
-      </ol>
-    )
-    : (data.steps || data.recipe || '—')
-
-  const notesContent = recipe?.notes
-    || data?.recipes?.find(r => r.notes)?.notes
-    || data.notes
-    || '—'
-
   const tabs = [
-    { key: 'ingredients', label: 'Nguyên liệu', content: ingredientContent },
-    { key: 'steps', label: 'Cách nấu', content: stepsContent },
-    { key: 'notes', label: 'Ghi chú', content: notesContent }
+    { key: 'ingredients', label: 'Nguyên liệu', content: data.ingredients || data.ingredient || '—' },
+    { key: 'steps', label: 'Cách nấu', content: data.steps || data.recipe || '—' },
+    { key: 'notes', label: 'Ghi chú', content: data.notes || '—' }
   ]
 
   return (

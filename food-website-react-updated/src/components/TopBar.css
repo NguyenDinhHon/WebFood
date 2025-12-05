@@ -3,9 +3,8 @@
   align-items: center;
   gap: 20px;
   padding: 10px 20px;
-  /* Để background và shadow dùng chung định nghĩa trong styles.css */
-  background: transparent;
-  box-shadow: none;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
@@ -23,7 +22,7 @@
   flex: 1;
   max-width: 400px;
   display: flex;
-  border: 2px solid var(--accent-color);
+  border: 2px solid #00ff88;
   border-radius: 20px;
   overflow: hidden;
 }
@@ -38,14 +37,14 @@
 .search-button {
   border: none;
   padding: 8px 15px;
-  background: var(--gradient);
+  background: linear-gradient(45deg, #00ff88, #ff007a);
   color: white;
   cursor: pointer;
 }
 
 .auth-button {
   padding: 8px 15px;
-  background: var(--primary-color);
+  background: #00ff88;
   color: white;
   text-decoration: none;
   border-radius: 5px;

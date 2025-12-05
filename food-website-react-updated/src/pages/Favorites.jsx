@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Api } from '../services/api'
 import { useAuth } from '../services/auth'
+import RecipeCard from '../components/RecipeCard'
 import SpecialtyCard from '../components/SpecialtyCard'
 import Loader from '../components/Loader'
 
@@ -24,16 +25,11 @@ export default function Favorites() {
     setLoading(true)
     setError(null)
     
-    // Avoid debug logs in production: remove noisy console output from dev
-    
     try {
       const data = await Api.getFavorites()
-      // Favorites loaded successfully
       setFavorites(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error('❌ Error loading favorites:', err)
-      console.error('Error message:', err.message)
-      console.error('Error details:', err)
       
       if (err.message?.includes('401')) {
         navigate('/login')
@@ -45,15 +41,14 @@ export default function Favorites() {
     }
   }
 
-  const handleRemove = async (specialtyId) => {
+  const handleRemove = async (itemId, itemType, favoriteId) => {
     if (!window.confirm('Bạn có chắc muốn xóa món này khỏi danh sách yêu thích?')) {
       return
     }
 
     try {
-      await Api.removeFavorite(specialtyId)
-      // Remove from local state
-      setFavorites(prev => prev.filter(item => item.id !== specialtyId))
+      await Api.removeFavorite(itemId, itemType)
+      setFavorites(prev => prev.filter(item => item.favoriteId !== favoriteId))
     } catch (err) {
       console.error('Error removing favorite:', err)
       alert('Có lỗi xảy ra khi xóa')
@@ -123,40 +118,49 @@ export default function Favorites() {
             </div>
 
             <div id="explore-list">
-              {favorites.map(item => (
-                <div key={item.id} style={{ position: 'relative' }}>
-                  <SpecialtyCard item={item} />
-                  
-                  {/* Remove button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleRemove(item.id)
-                    }}
-                    style={{
-                      position: 'absolute',
-                      bottom: '12px',
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      padding: '6px 16px',
-                      fontSize: '0.85rem',
-                      background: '#ff4444',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '16px',
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                      opacity: 0,
-                      transition: 'opacity 0.2s'
-                    }}
-                    onMouseEnter={(e) => e.target.style.opacity = '1'}
-                    onMouseLeave={(e) => e.target.style.opacity = '0'}
-                  >
-                    Xóa
-                  </button>
-                </div>
-              ))}
-            </div>
+              {favorites.map((item, index) => {
+                const isRecipe = item.type === 'recipe';
+                const cardItem = isRecipe ? item.recipe : item.specialty;
+                const CardComponent = isRecipe ? RecipeCard : SpecialtyCard;
+                const uniqueKey = item.favoriteId || index;
+
+                if (!cardItem) {
+                    console.warn(
+                        `❌ Dữ liệu mục yêu thích bị hỏng (ID: ${item.favoriteId || 'KHÔNG CÓ ID'}). Dữ liệu:`, 
+                        item
+                    );
+                    // Nếu mục bị hỏng, cung cấp nút xóa mục đó
+                    return (
+                        <div key={item.favoriteId || index} className="corrupted-item">
+                            <p style={{color: 'red'}}>Mục yêu thích bị lỗi ({item.type}). Không thể tải dữ liệu gốc.</p>
+                            <button onClick={() => handleRemove(item.favoriteId, item.type, item.favoriteId)}>
+                                🗑️ Xóa mục lỗi
+                            </button>
+                        </div>
+                    );
+                }
+                return (
+                  <div 
+                      key={uniqueKey} 
+                      style={{ position: 'relative' }}
+                    >
+                      <CardComponent item={cardItem} /> 
+                    
+                    {/* Remove button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const itemType = item.type;
+                        const itemId = cardItem.id;
+                        handleRemove(itemId, itemType, item.favoriteId)
+                      }}
+                      >
+                        Xóa
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </>
         )}
       </div>

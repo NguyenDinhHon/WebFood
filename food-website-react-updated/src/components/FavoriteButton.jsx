@@ -2,20 +2,20 @@ import { useState, useEffect } from 'react'
 import { Api } from '../services/api'
 import { useAuth } from '../services/auth'
 
-export default function FavoriteButton({ specialtyId, className = '' }) {
+export default function FavoriteButton({ itemId, itemType, className = '' }) {
   const { token } = useAuth()
   const [isFavorite, setIsFavorite] = useState(false)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (token && specialtyId) {
+    if (token && itemId && itemType) {
       checkFavoriteStatus()
     }
-  }, [token, specialtyId])
+  }, [token, itemId, itemType])
 
   const checkFavoriteStatus = async () => {
     try {
-      const result = await Api.checkFavorite(specialtyId)
+      const result = await Api.checkFavorite(itemId, itemType)
       setIsFavorite(result.isFavorite)
     } catch (err) {
       console.error('Error checking favorite:', err)
@@ -23,7 +23,7 @@ export default function FavoriteButton({ specialtyId, className = '' }) {
   }
 
   const toggleFavorite = async (e) => {
-    e.stopPropagation() // Không trigger navigation khi click
+    e.stopPropagation()
     e.preventDefault()
 
     if (!token) {
@@ -31,13 +31,19 @@ export default function FavoriteButton({ specialtyId, className = '' }) {
       return
     }
 
+    if (!itemId || !itemType) {
+      console.error("Lỗi: Không tìm thấy ID/Type mục yêu thích.");
+      alert('Lỗi dữ liệu. Vui lòng thử lại.');
+      return;
+    }
+
     setLoading(true)
     try {
       if (isFavorite) {
-        await Api.removeFavorite(specialtyId)
+        await Api.removeFavorite(itemId, itemType)
         setIsFavorite(false)
       } else {
-        await Api.addFavorite(specialtyId)
+        await Api.addFavorite(itemId, itemType)
         setIsFavorite(true)
       }
     } catch (err) {
@@ -55,7 +61,7 @@ export default function FavoriteButton({ specialtyId, className = '' }) {
     }
   }
 
-  if (!token) return null // Không hiển thị nếu chưa login
+  if (!token || !itemId || !itemType) return null
 
   return (
     <button

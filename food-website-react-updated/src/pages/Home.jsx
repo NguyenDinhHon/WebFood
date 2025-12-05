@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import RecommendationCTA from '../components/RecommendationCTA.jsx'
 import MapVN from '../components/MapVN.jsx'
 import ProvinceModal from '../components/ProvinceModal.jsx'
 import SpecialtyCard from '../components/SpecialtyCard.jsx'
@@ -143,10 +144,11 @@ export default function Home() {
         />
       )}
 
-      <section
-        className="content-section"
-        style={{ maxWidth: '1400px', margin: '24px auto', padding: '0 20px' }}
-      >
+      {/*Gợi ý món ăn*/}
+      <RecommendationCTA />
+
+      {/* Gợi ý ngẫu nhiên */}
+      <section style={{ maxWidth: '1400px', margin: '24px auto', padding: '0 20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', paddingLeft: '24px' }}>
           <h2 className="section-title" style={{ margin: 0 }}>🎲 Gợi Ý Ngẫu Nhiên</h2>
           <button
@@ -155,15 +157,13 @@ export default function Home() {
             style={{
               padding: '10px 24px',
               fontSize: '0.95rem',
-              background: 'linear-gradient(90deg, var(--primary-color), var(--secondary-color))',
+              background: 'linear-gradient(90deg, #ff4ecd, #00e676)',
               color: '#fff',
               border: 'none',
-              borderRadius: '999px',
+              borderRadius: '20px',
               cursor: loadingRandom ? 'not-allowed' : 'pointer',
               fontWeight: '600',
-              opacity: loadingRandom ? 0.6 : 1,
-              boxShadow: '0 6px 18px rgba(15, 23, 42, 0.16)',
-              transition: 'transform 0.18s ease, box-shadow 0.18s ease, opacity 0.15s ease'
+              opacity: loadingRandom ? 0.6 : 1
             }}
           >
             🔄 Chọn Khác
@@ -220,10 +220,7 @@ export default function Home() {
         ) : null}
       </section>
 
-      <section
-        className="content-section"
-        style={{ maxWidth: '1400px', margin: '24px auto', padding: '0 20px' }}
-      >
+      <section style={{ maxWidth: '1400px', margin: '24px auto', padding: '0 20px' }}>
         <h2 className="section-title" style={{ paddingLeft: '24px' }}>Đặc sản được xem nhiều nhất</h2>
         <div className="horizontal-scroll">
           {loadingTop ? (

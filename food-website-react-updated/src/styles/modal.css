@@ -54,7 +54,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 28px;
-  background: var(--gradient);
+  background: linear-gradient(90deg, #ff4ecd, #00e676);
   color: white;
 }
 
@@ -110,12 +110,12 @@
 }
 
 .modal-body::-webkit-scrollbar-thumb {
-  background: var(--accent-color);
+  background: #00e676;
   border-radius: 4px;
 }
 
 .modal-body::-webkit-scrollbar-thumb:hover {
-  background: #21867a;
+  background: #00c964;
 }
 
 /* Count */
@@ -128,7 +128,7 @@
 }
 
 .modal-count strong {
-  color: var(--primary-color);
+  color: #ff4ecd;
   font-size: 1.3rem;
 }
 
@@ -162,8 +162,8 @@
 .modal-error {
   text-align: center;
   padding: 40px 20px;
-  color: #b42318;
-  background-color: #fee4e2;
+  color: #c33;
+  background-color: #fee;
   border-radius: 8px;
   font-size: 1.1rem;
 }
@@ -265,7 +265,7 @@
   width: 100%;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.5);
+  box-shadow: 0 10px 50px rgba(0, 255, 136, 0.3);
 }
 
 .map-zoom-close {

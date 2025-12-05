@@ -1,0 +1,12 @@
+# Bỏ qua các tệp môi trường (environment files)
+# Các tệp này thường chứa các khóa bí mật/API keys
+/node_modules
+/public
+.env
+.env.development
+
+# Bỏ qua các tệp môi trường trong thư mục gemini-proxy
+# Dấu * có thể dùng để bỏ qua tất cả các tệp .env.*
+# hoặc chỉ định rõ từng tên tệp
+/gemini-proxy/.env
+/gemini-proxy/node_modules
