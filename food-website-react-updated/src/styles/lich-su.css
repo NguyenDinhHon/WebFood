@@ -1,14 +1,15 @@
-/* Biến màu */
+/* Biến màu (đồng bộ với styles.css) */
 :root {
-  --primary-color: #00ff88; /* Xanh neon */
-  --secondary-color: #ff007a; /* Hồng neon */
-  --background-color: #f7faff; /* Trắng pastel */
-  --container-bg: #e0f7fa; /* Xanh mint nhạt */
-  --text-color: #333333; /* Đen nhạt */
-  --accent-color: #ffff00; /* Vàng neon */
-  --gradient: linear-gradient(45deg, #00ff88, #ff007a);
-  --shadow: 0 0 15px rgba(0, 255, 136, 0.3); /* Bóng phát sáng xanh neon */
-  --shadow-pink: 0 0 15px rgba(255, 0, 122, 0.3); /* Bóng hồng neon */
+  --primary-color: #6e453b;
+  --secondary-color: #c58b3b;
+  --background-color: #fdf8f3;
+  --container-bg: #ffffff;
+  --card-bg: #fdf1df;
+  --text-color: #292f33;
+  --accent-color: #4f6b57;
+  --gradient: linear-gradient(135deg, #6e453b, #c58b3b);
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-pink: 0 4px 14px rgba(110, 69, 59, 0.22);
 }
 
 /* Reset CSS */
@@ -19,9 +20,11 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
-  background-color: var(--background-color);
+  /* Dùng nền chung từ styles.css (html/body/#root) */
+  background-color: transparent;
   color: var(--text-color);
   overflow-x: hidden;
   min-height: 100vh;
@@ -227,7 +230,7 @@ header p {
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  background-color: var(--container-bg);
+  background-color: var(--card-bg);
   border-radius: 10px;
   box-shadow: var(--shadow);
   border: 3px solid var(--primary-color);
@@ -247,7 +250,7 @@ header p {
   justify-content: center;
 }
 .history-item {
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 10px;
   box-shadow: var(--shadow);
   width: 300px;

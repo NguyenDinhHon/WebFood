@@ -1,0 +1,10 @@
+{
+  "name": "food-website-all",
+  "version": "1.0.0",
+  "description": "Start both frontend and proxy server",
+  "main": "start-all.js",
+  "scripts": {
+    "start-all": "node start-all.js",
+    "start": "node start-all.js"
+  }
+}

@@ -1,8 +1,9 @@
 :root {
-  --color-primary: #e63946;
-  --color-secondary: #457b9d;
-  --text-main: #222;
+  /* Biến màu phụ (nếu cần dùng riêng): đồng bộ với styles.css */
+  --color-primary: #6e453b;
+  --color-secondary: #4f6b57;
+  --text-main: #292f33;
   --radius: 10px;
-  --shadow: 0px 3px 10px rgba(0,0,0,0.1);
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
   --spacing: 1.2rem;
 }
