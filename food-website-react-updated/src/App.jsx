@@ -13,6 +13,7 @@ import History from './pages/History.jsx'
 import Favorites from './pages/Favorites.jsx'
 import { AuthProvider } from './services/auth.jsx'
 import NotFound from "./pages/NotFound";
+import RecommendationPage from './pages/RecommendationPage.jsx'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/history" element={<History />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/recommendation" element={<RecommendationPage />} />
       </Routes>
       <Footer />
       <ChatBox />

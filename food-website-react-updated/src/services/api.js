@@ -53,9 +53,15 @@ export function getValidImageUrl(item = {}) {
   let imagePath = null
   
   // 1. Ưu tiên imageUrl từ object chính
-  if (item.imageUrl) {
+  if (item.specialtyImageUrl) {
+    imagePath = item.specialtyImageUrl
+  }
+  else if (item.imageUrl) {
     imagePath = item.imageUrl
-  } 
+  }
+  else if (item.ImageUrl) {
+    imagePath = item.ImageUrl
+  }
   // 2. Từ specialtyImages array (backend ASP.NET Core trả về)
   else if (item.specialtyImages && item.specialtyImages.length > 0) {
     imagePath = item.specialtyImages[0].imageUrl
@@ -187,12 +193,33 @@ export const Api = {
   // Ingredients (Nguyên liệu)
   ingredients: () => fetchAPI('/Ingredients', {}, true),
   createIngredient: (payload) => fetchAPI('/Ingredients', { method: 'POST', body: JSON.stringify(payload) }, true),
-  
+  searchIngredients: (query) => fetchAPI(`/Ingredients/search?q=${encodeURIComponent(query)}`),
+
   // User Ingredients (Nguyên liệu người dùng)
   userIngredients: () => fetchAPI('/UserIngredients', {}, true),
   userIngredientsByUserId: (userId) => fetchAPI(`/UserIngredients/${userId}`, {}, true),
   addUserIngredient: (payload) => fetchAPI('/UserIngredients', { method: 'POST', body: JSON.stringify(payload) }, true),
-  
+  updateUserIngredient: (id, payload) => fetchAPI(`/UserIngredients/${id}`, { method: 'PUT', body: JSON.stringify(payload) }, true),
+  deleteUserIngredient: (id) => fetchAPI(`/UserIngredients/${id}`, { method: 'DELETE' }, true),
+
+  //Recommendations (Gợi ý món ăn)
+  // Gợi ý từ danh sách ID nguyên liệu (dùng cho Guest/Chọn thủ công)
+  getRecommendationsByIngredients: (ingredientIds, minMatch = 0, top = 20) => {
+      // POST /api/recommendation/by-ingredients
+      const query = `?top=${top}&minMatch=${minMatch}`;
+      return fetchAPI(`/Recommendation/by-ingredients${query}`, { 
+          method: 'POST', 
+          body: JSON.stringify({ ingredientIds }) 
+      });
+  },
+
+  // Gợi ý từ nguyên liệu đã lưu trong kho của User (chỉ cho Account)
+  getRecommendationsFromUser: (minMatch = 0, top = 20) => {
+      // GET /api/recommendation/from-user
+      const query = `?top=${top}&minMatch=${minMatch}`;
+      return fetchAPI(`/Recommendation/from-user${query}`, {}, true); 
+  },
+
   // Favorites (Yêu thích)
   getFavorites: async () => {
     // WORKAROUND: Lấy tất cả specialties rồi filter bằng checkFavorite
@@ -205,8 +232,8 @@ export const Api = {
       return []
     }
   },
-  addFavorite: (specialtyId) => fetchAPI(`/Favorites/${specialtyId}`, { method: 'POST' }, true),
-  removeFavorite: (specialtyId) => fetchAPI(`/Favorites/${specialtyId}`, { method: 'DELETE' }, true),
-  checkFavorite: (specialtyId) => fetchAPI(`/Favorites/check/${specialtyId}`, {}, true),
+  addFavorite: (id, type) => fetchAPI(`/Favorites/${id}?type=${type}`, { method: 'POST' }, true),
+  removeFavorite: (id, type) => fetchAPI(`/Favorites/${id}?type=${type}`, { method: 'DELETE' }, true),
+  checkFavorite: (id, type) => fetchAPI(`/Favorites/check/${id}?type=${type}`, {}, true),
   getFavoritesCount: () => fetchAPI('/Favorites/count', {}, true),
 }

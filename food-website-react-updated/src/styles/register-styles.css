@@ -1,14 +1,14 @@
-/* Biến CSS để dễ quản lý màu sắc (đồng bộ với styles.css) */
+/* Biến CSS để dễ quản lý màu sắc */
 :root {
-  --primary-color: #6e453b;
-  --secondary-color: #c58b3b;
-  --background-color: #fdf8f3;
-  --container-bg: #ffffff;
-  --text-color: #292f33;
-  --accent-color: #4f6b57;
-  --gradient: linear-gradient(135deg, #6e453b, #c58b3b);
-  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-  --shadow-pink: 0 4px 14px rgba(110, 69, 59, 0.22);
+  --primary-color: #00ff88; /* Xanh neon */
+  --secondary-color: #ff007a; /* Hồng neon */
+  --background-color: #f7faff; /* Trắng pastel */
+  --container-bg: #e0f7fa; /* Xanh mint nhạt */
+  --text-color: #333333; /* Đen nhạt */
+  --accent-color: #ffff00; /* Vàng neon */
+  --gradient: linear-gradient(45deg, #00ff88, #ff007a);
+  --shadow: 0 0 15px rgba(0, 255, 136, 0.3); /* Bóng phát sáng xanh neon */
+  --shadow-pink: 0 0 15px rgba(255, 0, 122, 0.3); /* Bóng hồng neon */
 }
 
 /* Reset CSS */
@@ -19,24 +19,112 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-    system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 1.6;
-  /* Dùng nền chung từ styles.css (html/body/#root) */
-  background-color: transparent;
+  background-color: var(--background-color);
   color: var(--text-color);
   overflow-x: hidden;
 }
 
-/* Hiệu ứng nhẹ cho trang đăng ký */
+/* Hiệu ứng tải trang */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Hiệu ứng ánh sáng xoay */
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hiệu ứng ánh sáng radial */
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Hiệu ứng nhấp nháy cho nút */
+@keyframes buttonGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--primary-color);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--secondary-color);
+  }
+}
+
+/* Hiệu ứng rung khi click */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+/* Hiệu ứng gợn sóng khi focus */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Hiệu ứng nhấp nháy neon cho tiêu đề */
+@keyframes neonGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 15px var(--primary-color), 0 0 25px var(--primary-color),
+      0 0 35px var(--primary-color);
+  }
+  50% {
+    text-shadow: 0 0 25px var(--primary-color), 0 0 35px var(--secondary-color),
+      0 0 45px var(--secondary-color);
+  }
+}
+
+/* Animation slideIn */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -69,7 +157,7 @@ header {
   position: relative;
   overflow: hidden;
   border-bottom: 3px solid var(--primary-color);
-  animation: fadeIn 0.4s ease-out;
+  animation: fadeIn 1s ease-out;
 }
 
 header::before {
@@ -79,8 +167,9 @@ header::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.55), transparent 65%);
-  opacity: 0.9;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0.6;
+  animation: pulseGlow 3s infinite ease-in-out;
   z-index: -1; /* Đặt xuống dưới để không che phủ */
   pointer-events: none; /* Không chặn sự kiện click */
 }
@@ -88,11 +177,13 @@ header::before {
 header h1 {
   text-transform: uppercase;
   letter-spacing: 4px;
-  text-shadow: 0 2px 4px rgba(15, 23, 42, 0.35);
+  text-shadow: 0 0 15px var(--primary-color), 0 0 25px var(--primary-color);
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-size: 2.4em;
+  font-size: 3em;
   position: relative;
+  animation: slideIn 1s ease-out;
+  animation: neonGlow 1.5s infinite;
 }
 
 /* Container đăng ký */

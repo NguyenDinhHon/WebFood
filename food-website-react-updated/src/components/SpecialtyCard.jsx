@@ -4,9 +4,10 @@ import FavoriteButton from './FavoriteButton.jsx'
 
 
 export default function SpecialtyCard({ item }) {
+  if (!item) return null;
   return (
     <div className="specialty-item" style={{ position: 'relative' }}>
-      <FavoriteButton specialtyId={item.id} />
+      <FavoriteButton itemId={item.id} itemType="specialty" />
       <img
         src={getValidImageUrl(item)}
         alt={item.name || 'Specialty'}
