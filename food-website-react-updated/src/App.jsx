@@ -10,6 +10,7 @@ import Search from './pages/Search.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import History from './pages/History.jsx'
+import Favorites from './pages/Favorites.jsx'
 import { AuthProvider } from './services/auth.jsx'
 import NotFound from "./pages/NotFound";
 
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/history" element={<History />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
