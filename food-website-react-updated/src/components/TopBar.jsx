@@ -36,6 +36,8 @@ export default function TopBar() {
         <ul>
           <li><Link to="/">Trang chủ</Link></li>
           <li><Link to="/explore">Khám Phá</Link></li>
+          <li><Link to="/recommendation">🍽️ Gợi ý</Link></li>
+          <li><Link to="/favorites">❤️ Yêu thích</Link></li>
           <li><Link to="/history">Lịch sử</Link></li>
         </ul>
       </div>

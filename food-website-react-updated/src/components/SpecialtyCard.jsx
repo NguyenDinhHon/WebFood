@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom'
-import { getValidImageUrl } from '../services/api.js'
+import { getValidImageUrl, IMAGE_PLACEHOLDER } from '../services/api.js'
+import FavoriteButton from './FavoriteButton.jsx'
 
 
 export default function SpecialtyCard({ item }) {
+  if (!item) return null;
   return (
-    <div className="specialty-item">
-      <img src={getValidImageUrl(item)} alt={item.name || 'Specialty'} />
+    <div className="specialty-item" style={{ position: 'relative' }}>
+      <FavoriteButton itemId={item.id} itemType="specialty" />
+      <img
+        src={getValidImageUrl(item)}
+        alt={item.name || 'Specialty'}
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        onError={(e) => { e.target.onerror = null; e.target.src = IMAGE_PLACEHOLDER }}
+      />
       <h3>{item.name}</h3>
       <p>{item.description || ''}</p>
       <Link to={`/specialty/${item.id}`} className="detail-btn">Xem chi tiết</Link>

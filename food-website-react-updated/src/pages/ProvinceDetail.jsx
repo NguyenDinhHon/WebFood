@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import { useProvince } from "../hooks/useProvince";
 import { useSpecialtiesByProvince } from "../hooks/useSpecialtiesByProvince";
-import { getValidImageUrl } from "../services/api";
+import { getValidImageUrl, IMAGE_PLACEHOLDER } from "../services/api";
 
 export default function ProvinceDetail() {
   const { id } = useParams();
@@ -30,9 +30,11 @@ export default function ProvinceDetail() {
                 <img 
                   src={getValidImageUrl(s)} 
                   alt={s.name}
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/default-food.png';
+                    e.target.src = IMAGE_PLACEHOLDER;
                   }}
                 />
                 <h3>{s.name}</h3>
