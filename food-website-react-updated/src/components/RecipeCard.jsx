@@ -5,9 +5,8 @@ import FavoriteButton from './FavoriteButton.jsx'
 export default function RecipeCard({ item }) {
     if (!item) return null;
 
-    // FIX LỖI ẢNH: Đảm bảo truy cập thuộc tính viết thường từ API
-    const imageUrl = item.specialtyImageUrl || ''; 
-    const imageItem = imageUrl.length > 0 ? {ImageUrl: imageUrl} : null;
+    // FIX LỖI ẢNH: Xử lý cả camelCase và PascalCase từ API
+    const imageUrl = item.specialtyImageUrl || item.SpecialtyImageUrl || '';
     const matchedCount = item.matchedCount || 0; 
     const totalIngredients = item.totalIngredients || 0;
     const matchPercent = item.matchPercent || 0;
@@ -26,12 +25,16 @@ export default function RecipeCard({ item }) {
             <FavoriteButton itemId={item.recipeId} itemType="recipe" /> 
             
             <img
-                src={imageItem ? getValidImageUrl(imageItem) : IMAGE_PLACEHOLDER}
+                src={imageUrl ? getValidImageUrl({ specialtyImageUrl: imageUrl, ...item }) : IMAGE_PLACEHOLDER}
                 alt={item.recipeName || 'Recipe'}
                 // Xóa style inline vì đã có trong CSS (.recipe-item img)
                 draggable={false}
                 onContextMenu={(e) => e.preventDefault()}
-                onError={(e) => { e.target.onerror = null; e.target.src = IMAGE_PLACEHOLDER }}
+                onError={(e) => { 
+                    e.target.onerror = null; 
+                    e.target.src = IMAGE_PLACEHOLDER;
+                    console.warn('Failed to load image for recipe:', item.recipeName, 'URL:', imageUrl);
+                }}
             />
 
             {/* Sử dụng className="recipe-item-content" */}
@@ -71,13 +74,13 @@ export default function RecipeCard({ item }) {
                     </p>
                 )}
                 
-                {/* NÚT XEM CÔNG THỨC */}
+                {/* NÚT XEM CHI TIẾT */}
                 {targetId ? (
                     <Link 
                         to={targetPath} // TRỎ ĐẾN /specialty/:id
                         className="detail-btn"
                     >
-                        Xem công thức
+                        Xem chi tiết
                     </Link>
                 ) : (
                     <button className="detail-btn" disabled 
