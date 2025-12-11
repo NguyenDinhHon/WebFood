@@ -46,7 +46,22 @@ export async function fetchAPI(endpoint, options = {}, needToken = false) {
     }
     throw new Error(`HTTP ${res.status}: ${message}`);
   }
-  return res.json();
+  
+  // Handle empty response (204 No Content hoặc response body trống)
+  const contentType = res.headers.get('content-type');
+  const text = await res.text();
+  
+  if (!text || text.trim() === '') {
+    return null;
+  }
+  
+  // Parse JSON nếu có content
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    console.error('Lỗi parse JSON:', err, 'Response:', text.substring(0, 200));
+    throw new Error(`Invalid JSON response: ${err.message}`);
+  }
 }
 
 export const IMAGE_PLACEHOLDER = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23e0e0e0" width="400" height="300"/%3E%3Ctext fill="%23999" font-family="Arial,sans-serif" font-size="20" dy="10.5" font-weight="bold" x="50%25" y="50%25" text-anchor="middle"%3EKh%C3%B4ng c%C3%B3 %E1%BA%A3nh%3C/text%3E%3C/svg%3E'
