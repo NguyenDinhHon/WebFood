@@ -2,9 +2,17 @@ const BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
 
 export async function fetchAPI(endpoint, options = {}, needToken = false) {
   const token = localStorage.getItem('token')
-  const url = `${BASE_URL}${endpoint}`;
+  
+  // Trong development, luôn dùng /api path để Vite proxy xử lý
+  // Trong production, dùng full BASE_URL
+  let url;
+  if (import.meta.env.DEV) {
+    url = `/api${endpoint}`;
+  } else {
+    url = BASE_URL ? `${BASE_URL}${endpoint}` : `/api${endpoint}`;
+  }
 
-  if (typeof window !== 'undefined' && window.location.protocol === 'https:' && BASE_URL.startsWith('http://')) {
+  if (typeof window !== 'undefined' && BASE_URL && window.location.protocol === 'https:' && BASE_URL.startsWith('http://')) {
     if (import.meta.env.DEV) {
       console.warn('⚠️ Mixed content risk: front-end is served over HTTPS but API_BASE uses HTTP. This will likely result in blocked requests or errors. Consider setting VITE_API_URL to https or running both servers on the same protocol.')
     }
@@ -171,8 +179,8 @@ export const Api = {
   profile: () => fetchAPI('/Auth/profile', {}, true),
   
   // Ratings (Xếp hạng)
-  ratings: () => fetchAPI('/Ratings', {}, true),
-  ratingsBySpecialty: (specialtyId) => fetchAPI(`/Ratings/specialty/${specialtyId}`, {}, true),
+  ratings: () => fetchAPI('/Ratings'), // Không cần token để đọc
+  ratingsBySpecialty: (specialtyId) => fetchAPI(`/Ratings/specialty/${specialtyId}`), // Không cần token để đọc
   submitRating: (payload) => fetchAPI('/Ratings/user-rating', { method: 'POST', body: JSON.stringify(payload) }, true),
   
   // User View History (Lịch sử xem)
@@ -206,7 +214,7 @@ export const Api = {
       const query = `?top=${top}&minMatch=${minMatch}`;
       return fetchAPI(`/Recommendation/by-ingredients${query}`, { 
           method: 'POST', 
-          body: JSON.stringify({ ingredientIds }) 
+          body: JSON.stringify({ ingredientIds: ingredientIds }) // Gửi đúng format
       });
   },
 
@@ -233,4 +241,14 @@ export const Api = {
   removeFavorite: (id, type) => fetchAPI(`/Favorites/${id}?type=${type}`, { method: 'DELETE' }, true),
   checkFavorite: (id, type) => fetchAPI(`/Favorites/check/${id}?type=${type}`, {}, true),
   getFavoritesCount: () => fetchAPI('/Favorites/count', {}, true),
+  
+  // Comments (Bình luận)
+  getComments: (specialtyId) => fetchAPI(`/Comments/specialty/${specialtyId}`),
+  getCommentReplies: (commentId) => fetchAPI(`/Comments/${commentId}/replies`),
+  submitComment: (payload) => fetchAPI('/Comments', { method: 'POST', body: JSON.stringify(payload) }, true),
+  submitReply: (payload) => fetchAPI('/Comments/reply', { method: 'POST', body: JSON.stringify(payload) }, true),
+  deleteComment: (id) => fetchAPI(`/Comments/${id}`, { method: 'DELETE' }, true),
+  deleteReply: (id) => fetchAPI(`/Comments/reply/${id}`, { method: 'DELETE' }, true),
+  updateComment: (id, payload) => fetchAPI(`/Comments/${id}`, { method: 'PUT', body: JSON.stringify(payload) }, true),
+  updateReply: (id, payload) => fetchAPI(`/Comments/reply/${id}`, { method: 'PUT', body: JSON.stringify(payload) }, true),
 }

@@ -33,6 +33,8 @@ namespace FoodWebsite_API.Data
 
         public virtual DbSet<UserFavorite> UserFavorites { get; set; }
 
+        public virtual DbSet<Comment> Comments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -282,6 +284,33 @@ namespace FoodWebsite_API.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__UserViewH__UserI__10566F31");
+            });
+
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasIndex(e => new { e.SpecialtyId, e.CreatedAt }, "IX_Comments_SpecialtyId_CreatedAt").IsDescending(false, true);
+                entity.HasIndex(e => e.UserId, "IX_Comments_UserId");
+
+                entity.Property(e => e.Content).IsRequired();
+                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysdatetime())");
+                entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+
+                entity.HasOne(c => c.ParentComment)
+                    .WithMany(c => c.Replies)
+                    .HasForeignKey(c => c.ParentCommentId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(c => c.Specialty)
+                    .WithMany(s => s.Comments)
+                    .HasForeignKey(c => c.SpecialtyId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(c => c.User)
+                    .WithMany()
+                    .HasForeignKey(c => c.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Indexes for performance & search

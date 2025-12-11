@@ -30,5 +30,7 @@ namespace FoodWebsite_API.Models
         public virtual ICollection<SpecialtyImage> SpecialtyImages { get; set; } = new List<SpecialtyImage>();
 
         public virtual ICollection<UserViewHistory> UserViewHistories { get; set; } = new List<UserViewHistory>();
+
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
