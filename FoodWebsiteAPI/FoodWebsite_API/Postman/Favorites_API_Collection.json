@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "Food Website API - Favorites",
+    "description": "API Collection for testing Favorites endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@foodweb.com\",\n  \"password\": \"@admin_qtv@\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/Auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "Auth", "login"]
+        },
+        "description": "Login ?? l?y JWT token. Copy token t? response v� paste v�o Authorization c?a c�c request ti?p theo."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get All Favorites",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "description": "JWT token from login"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Favorites",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "Favorites"]
+        },
+        "description": "L?y danh s�ch t?t c? m�n ?n y�u th�ch c?a user hi?n t?i"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Add to Favorites",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "description": "JWT token from login"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Favorites/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "Favorites", "1"]
+        },
+        "description": "Th�m m�n ?n c� specialtyId = 1 v�o favorites. Thay ??i s? 1 th�nh ID m�n ?n b?n mu?n th�m."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Check if Favorite",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "description": "JWT token from login"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Favorites/check/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "Favorites", "check", "1"]
+        },
+        "description": "Ki?m tra m�n ?n c� specialtyId = 1 c� trong favorites kh�ng"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Get Favorites Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "description": "JWT token from login"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Favorites/count",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "Favorites", "count"]
+        },
+        "description": "L?y t?ng s? m�n ?n trong favorites"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Remove from Favorites",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "description": "JWT token from login"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/Favorites/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "Favorites", "1"]
+        },
+        "description": "X�a m�n ?n c� specialtyId = 1 kh?i favorites"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:5001",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "paste-your-jwt-token-here",
+      "type": "string"
+    }
+  ]
+}

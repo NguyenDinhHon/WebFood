@@ -1,0 +1,57 @@
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  /* Để background và shadow dùng chung định nghĩa trong styles.css */
+  background: transparent;
+  box-shadow: none;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  border: 2px solid var(--accent-color);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 8px;
+  font-size: 1em;
+}
+
+.search-button {
+  border: none;
+  padding: 8px 15px;
+  background: var(--gradient);
+  color: white;
+  cursor: pointer;
+}
+
+.auth-button {
+  padding: 8px 15px;
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: opacity 0.3s ease;
+}
+
+.auth-button:hover {
+  opacity: 0.85;
+}

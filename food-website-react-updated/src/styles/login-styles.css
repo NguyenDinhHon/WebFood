@@ -1,0 +1,458 @@
+/* Biến CSS để dễ quản lý màu sắc (đồng bộ với styles.css) */
+:root {
+  --primary-color: #6e453b;
+  --secondary-color: #c58b3b;
+  --background-color: #fdf8f3;
+  --container-bg: #ffffff;
+  --text-color: #292f33;
+  --accent-color: #4f6b57;
+  --gradient: linear-gradient(135deg, #6e453b, #c58b3b);
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-pink: 0 4px 14px rgba(110, 69, 59, 0.22);
+}
+
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  /* Dùng nền chung từ styles.css (html/body/#root) */
+  background-color: transparent;
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+/* Hiệu ứng nhẹ cho trang đăng nhập */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Class chung cho các liên kết điều hướng */
+.nav-link {
+  color: var(--primary-color); /* Màu mặc định là xanh neon */
+  text-decoration: none;
+  font-size: 1em;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2; /* Đảm bảo liên kết nằm trên cùng */
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--secondary-color);
+  text-shadow: 0 0 5px var(--secondary-color);
+  transform: scale(1.1);
+  border-bottom: 2px solid var(--gradient); /* Gạch chân gradient khi hover */
+}
+
+/* Header */
+header {
+  background: var(--gradient);
+  color: #ffffff;
+  box-shadow: var(--shadow);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--primary-color);
+  animation: fadeIn 0.4s ease-out;
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.55), transparent 65%);
+  opacity: 0.9;
+  z-index: -1; /* Đặt xuống dưới để không che phủ */
+  pointer-events: none; /* Không chặn sự kiện click */
+}
+
+header h1 {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 4px rgba(15, 23, 42, 0.35);
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 2.4em;
+  position: relative;
+}
+
+/* Container đăng nhập */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 250px);
+  padding: 20px;
+  animation: fadeIn 1.4s ease-out;
+}
+
+.login-form {
+  background-color: var(--container-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 50px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  border: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-form::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.2), transparent);
+  animation: rotateGlow 4s infinite linear;
+  z-index: -1; /* Đặt xuống dưới để không che phủ */
+  pointer-events: none; /* Không chặn sự kiện click */
+}
+
+.login-form:hover {
+  box-shadow: 0 0 40px var(--primary-color);
+  border-color: var(--secondary-color);
+}
+
+.login-form h2 {
+  margin-bottom: 30px;
+  font-size: 2.2em;
+  color: var(--primary-color);
+  text-shadow: 0 0 8px var(--primary-color);
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  animation: slideIn 1.6s ease-out;
+}
+
+.form-group {
+  margin-bottom: 30px;
+  text-align: left;
+  animation: fadeIn 1.8s ease-out;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 3px solid var(--primary-color);
+  border-radius: 10px;
+  font-size: 1.1em;
+  outline: none;
+  background-color: #ffffff;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+}
+
+.form-group input:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 20px var(--primary-color);
+  transform: scale(1.03);
+}
+
+.form-group input:focus + label {
+  color: var(--secondary-color);
+  text-shadow: 0 0 8px var(--secondary-color);
+}
+
+.login-button {
+  width: 100%;
+  padding: 15px;
+  background: var(--gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 2s ease-out;
+  z-index: 1; /* Đảm bảo nút nằm trên pseudo-element */
+}
+
+.login-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: all 0.5s ease;
+  pointer-events: none; /* Không chặn sự kiện click */
+}
+
+.login-button:hover::before {
+  left: 100%;
+}
+
+.login-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px var(--primary-color);
+  animation: buttonGlow 1.5s infinite;
+}
+
+.signup-link {
+  margin-top: 25px;
+  font-size: 1.1em;
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+  animation: fadeIn 2.2s ease-out;
+}
+
+.signup-link .nav-link {
+  z-index: 2; /* Đảm bảo liên kết nằm trên pseudo-element */
+}
+
+/* Nút quay lại */
+.back-button {
+  display: inline-block;
+  margin: 15px 0;
+  padding: 12px 25px;
+  background: var(--gradient);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 1.2s ease-out;
+}
+
+.back-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: all 0.5s ease;
+  pointer-events: none; /* Không chặn sự kiện click */
+}
+
+.back-button:hover::before {
+  left: 100%;
+}
+
+.back-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px var(--primary-color);
+}
+
+/* Footer */
+footer {
+  background: var(--gradient);
+  color: #ffffff;
+  box-shadow: var(--shadow);
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  border-top: 3px solid var(--primary-color);
+  text-align: center; /* Thêm dòng này để căn giữa nội dung */
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0.6;
+  animation: pulseGlow 3s infinite ease-in-out;
+  z-index: -1; /* Đặt xuống dưới để không che phủ */
+  pointer-events: none; /* Không chặn sự kiện click */
+}
+
+.social-links {
+  margin-bottom: 15px;
+  display: flex; /* Thêm */
+  justify-content: center; /* Thêm */
+  align-items: center; /* Thêm */
+  gap: 20px; /* Thêm, thay cho margin từng link */
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.social-links .nav-link {
+  color: var(--accent-color);
+  margin: 0 20px;
+  font-size: 1.2em;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.social-links .nav-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 15px var(--accent-color);
+  transform: scale(1.3);
+  border-bottom: 2px solid var(--gradient); /* Gạch chân gradient khi hover */
+}
+
+footer p {
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  font-size: 1em;
+}
+
+/* Error and success messages */
+.error-message {
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+.success-message {
+  background-color: #d1fae5;
+  border: 1px solid #6ee7b7;
+  color: #059669;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Password input wrapper for toggle button */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  padding-right: 45px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.toggle-password:hover {
+  transform: scale(1.2);
+}
+
+.toggle-password:focus {
+  outline: 2px solid var(--primary-color);
+  border-radius: 4px;
+}
+
+/* Password hint text */
+.password-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Disabled state for inputs and buttons */
+.form-group input:disabled,
+.login-button:disabled,
+.register-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-button:disabled:hover,
+.register-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  animation: none;
+}
+
+/* Media Queries */
+@media (max-width: 480px) {
+  .login-form {
+    padding: 25px;
+  }
+
+  .login-form h2 {
+    font-size: 1.8em;
+  }
+
+  header h1 {
+    font-size: 2em;
+  }
+
+  .form-group input,
+  .login-button,
+  .back-button {
+    font-size: 1em;
+  }
+
+  .social-links a {
+    margin: 0 10px;
+    font-size: 1em;
+  }
+}
