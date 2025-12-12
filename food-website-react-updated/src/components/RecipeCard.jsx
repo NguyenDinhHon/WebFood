@@ -5,8 +5,13 @@ import FavoriteButton from './FavoriteButton.jsx'
 export default function RecipeCard({ item }) {
     if (!item) return null;
 
-    // FIX LỖI ẢNH: Xử lý cả camelCase và PascalCase từ API
-    const imageUrl = item.specialtyImageUrl || item.SpecialtyImageUrl || '';
+
+    // FIX LỖI ẢNH: Đảm bảo truy cập thuộc tính viết thường từ API
+    const imageUrl = item.specialtyImageUrl || ''; 
+    const imageItem = imageUrl.length > 0 ? { imageUrl: imageUrl } : null;
+
+
+  
     const matchedCount = item.matchedCount || 0; 
     const totalIngredients = item.totalIngredients || 0;
     const matchPercent = item.matchPercent || 0;

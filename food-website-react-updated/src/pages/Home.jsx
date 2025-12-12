@@ -16,6 +16,8 @@ export default function Home() {
   const [selectedProvince, setSelectedProvince] = useState(null)
   const [randomSpecialties, setRandomSpecialties] = useState([])
   const [loadingRandom, setLoadingRandom] = useState(false)
+  const [ratings, setRatings] = useState([])
+  const [loadingRatings, setLoadingRatings] = useState(false)
   
   const { data: featured, isLoading: loadingFeatured, error: errorFeatured } = useFeaturedSpecialties()
   const { data: provinces, isLoading: loadingProvinces, error: errorProvinces } = useProvinces()
@@ -24,6 +26,7 @@ export default function Home() {
   // Load random specialties on mount
   useEffect(() => {
     loadRandomSpecialties()
+    // loadRatings() // Tạm disable - endpoint yêu cầu auth
   }, [])
 
   const loadRandomSpecialties = async () => {
@@ -59,6 +62,19 @@ export default function Home() {
       console.error('Lỗi tải gợi ý ngẫu nhiên:', err)
     } finally {
       setLoadingRandom(false)
+    }
+  }
+
+  const loadRatings = async () => {
+    setLoadingRatings(true)
+    try {
+      const data = await Api.ratings()
+      setRatings(Array.isArray(data) ? data.slice(0, 5) : [])
+    } catch (err) {
+      console.error('Lỗi tải đánh giá:', err)
+      setRatings([])
+    } finally {
+      setLoadingRatings(false)
     }
   }
 
@@ -253,12 +269,25 @@ export default function Home() {
       </section>
       <RecommendationCTA />
       
-      <section className="testimonials content-container">
+      {/* Ratings section - Tạm disable vì endpoint yêu cầu auth */}
+      {/* <section className="testimonials content-container">
         <h2>Đánh giá từ người dùng</h2>
         <div id="testimonial-list" className="testimonial-list">
-          <p className="text-gray-500">Chưa có đánh giá.</p>
+          {loadingRatings ? (
+            <p className="text-gray-500">Đang tải đánh giá...</p>
+          ) : ratings.length > 0 ? (
+            ratings.map((rating, idx) => (
+              <div key={idx} className="testimonial-item">
+                <p className="rating-user">{rating.userName || 'Người dùng'}</p>
+                <p className="rating-text">{rating.comment || rating.description || 'Đánh giá tốt'}</p>
+                <p className="rating-score">⭐ {rating.score || 5}/5</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">Chưa có đánh giá.</p>
+          )}
         </div>
-      </section>
+      </section> */}
     </main>
   )
 }
