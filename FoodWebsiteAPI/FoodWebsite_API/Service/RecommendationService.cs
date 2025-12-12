@@ -38,23 +38,27 @@ namespace FoodWebsite_API.Service
             // Tải thông tin chi tiết của Recipe và URL ảnh từ Specialty
             var recipeIdsToInclude = groupedIngredients.Select(a => a.RecipeId).ToList();
 
-            var recipeDetails = await _db.Recipes
-                .Where(r => recipeIdsToInclude.Contains(r.Id))
+            // Load recipes với navigation properties
+            var recipes = await _db.Recipes
+                .Where(r => recipeIdsToInclude.Contains(r.Id) && r.IsApproved)
+                .Include(r => r.Specialty)
+                    .ThenInclude(s => s.SpecialtyImages)
+                .ToListAsync();
+
+            // Map sang dictionary với URL ảnh
+            var recipeDetails = recipes
                 .Select(r => new {
                     r.Id,
                     r.Name,
                     r.SpecialtyId,
-                    SpecialtyName = r.Specialty == null ? "N/A" : r.Specialty.Name,
-
-                    // FIX 3: Truy vấn URL ảnh từ SpecialtyImages
-                    SpecialtyImageUrl = r.Specialty != null
-                        ? r.Specialty.SpecialtyImages // Nếu Specialty tồn tại
-                            .OrderBy(img => img.Id)
-                            .Select(img => img.ImageUrl)
-                            .FirstOrDefault()
-                        : null
+                    SpecialtyName = r.Specialty?.Name ?? "N/A",
+                    // Lấy URL ảnh đầu tiên từ SpecialtyImages
+                    SpecialtyImageUrl = r.Specialty?.SpecialtyImages
+                        ?.OrderBy(img => img.Id)
+                        .FirstOrDefault()
+                        ?.ImageUrl
                 })
-                .ToDictionaryAsync(r => r.Id);
+                .ToDictionary(r => r.Id);
 
             var ingredientNames = await _db.Ingredients.ToDictionaryAsync(i => i.Id, i => i.Name);
 
