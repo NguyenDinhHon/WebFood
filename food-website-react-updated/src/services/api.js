@@ -81,7 +81,7 @@ export function getValidImageUrl(item = {}) {
   }
   else if (item.imageUrl) {
     imagePath = item.imageUrl
-  }
+  } 
   // 2. Từ specialtyImages array (backend ASP.NET Core trả về)
   else if (item.specialtyImages && item.specialtyImages.length > 0) {
     imagePath = item.specialtyImages[0].imageUrl
@@ -214,7 +214,7 @@ export const Api = {
   ingredients: () => fetchAPI('/Ingredients', {}, true),
   createIngredient: (payload) => fetchAPI('/Ingredients', { method: 'POST', body: JSON.stringify(payload) }, true),
   searchIngredients: (query) => fetchAPI(`/Ingredients/search?q=${encodeURIComponent(query)}`),
-
+  
   // User Ingredients (Nguyên liệu người dùng)
   userIngredients: () => fetchAPI('/UserIngredients', {}, true),
   userIngredientsByUserId: (userId) => fetchAPI(`/UserIngredients/${userId}`, {}, true),
